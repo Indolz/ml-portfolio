@@ -1,6 +1,6 @@
 # 🧠 Ivan — ML Research & Engineering Portfolio
 
-> **Live portfolio:** [https://YOUR_USERNAME.github.io/ml-portfolio/](https://YOUR_USERNAME.github.io/ml-portfolio/)
+> **Live portfolio:** [https://Indolz.github.io/ml-portfolio/](https://Indolz.github.io/ml-portfolio/)
 
 A fully interactive, self-hosted portfolio tracking my 18-month journey to ML Research & Engineer — modelled on MIT 6.S191, Stanford CS229/CS224N, fast.ai, and deeplearning.ai.
 
