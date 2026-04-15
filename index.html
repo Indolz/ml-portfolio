@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ivan — ML Research & Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Clash+Display:wght@400;500;600;700&family=General+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ══ CURSOR ══ -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursor-trail"></div>
+
+<!-- ══ DARK MODE TOGGLE ══ -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <span class="toggle-icon">◐</span>
+</button>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <canvas id="grid-canvas"></canvas>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">ML Research & Engineering · Building in Public · Sydney, AU</div>
+    <h1 class="hero-title">
+      <span class="line-1">Ivan</span>
+      <span class="line-2"><em>Trains.</em> Builds.<br>Ships.</span>
+    </h1>
+    <p class="hero-sub">
+      Self-taught ML engineer on a structured 18-month path from Python to research-grade AI systems.
+      Every concept implemented from scratch. Every project public on GitHub.
+    </p>
+    <div class="hero-stats" id="heroStats">
+      <div class="stat-pill">
+        <span class="stat-val" id="stat-days">0</span>
+        <span class="stat-label">days in</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-val" id="stat-tasks">0</span>
+        <span class="stat-label">tasks done</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-val" id="stat-commits">—</span>
+        <span class="stat-label">commits</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-val" id="stat-phase">Ph.1</span>
+        <span class="stat-label">current phase</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#tracker" class="btn-primary" onclick="switchTab('tracker')">View Progress →</a>
+      <a href="#projects" class="btn-ghost" onclick="switchTab('projects')">See Projects</a>
+    </div>
+  </div>
+  <div class="scroll-hint">scroll ↓</div>
+</section>
+
+<!-- ══ MAIN APP ══ -->
+<div class="app-shell" id="app">
+
+  <!-- NAV -->
+  <nav class="app-nav" id="appNav">
+    <div class="nav-brand">
+      <span class="brand-dot"></span>
+      <span>Ivan · ML/AI</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="tab active" data-tab="roadmap">📍 Roadmap</button>
+      <button class="tab" data-tab="tracker">✅ Tracker</button>
+      <button class="tab" data-tab="projects">🛠 Projects</button>
+      <button class="tab" data-tab="analytics">📊 Analytics</button>
+      <button class="tab" data-tab="resources">📚 Resources</button>
+    </div>
+    <div class="nav-github">
+      <span id="nav-commit-count" class="commit-badge">⬤ live</span>
+    </div>
+  </nav>
+
+  <!-- PANELS -->
+  <div class="panels">
+
+    <!-- ══════════ ROADMAP ══════════ -->
+    <div class="panel active" id="panel-roadmap">
+      <div class="panel-header">
+        <h2>Learning Roadmap</h2>
+        <p>5 phases · 72 weeks · 15 hrs/week · modelled on MIT 6.S191, Stanford CS229/CS224N, fast.ai</p>
+      </div>
+
+      <div class="phases-container" id="phasesContainer"></div>
+    </div>
+
+    <!-- ══════════ TRACKER ══════════ -->
+    <div class="panel" id="panel-tracker">
+      <div class="panel-header">
+        <h2>Task Tracker</h2>
+        <p>All 54 tasks — check off as you go. Progress saves automatically.</p>
+      </div>
+      <div class="tracker-controls">
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Phase 1">P1</button>
+          <button class="filter-btn" data-filter="Phase 2">P2</button>
+          <button class="filter-btn" data-filter="Phase 3">P3</button>
+          <button class="filter-btn" data-filter="Phase 4">P4</button>
+          <button class="filter-btn" data-filter="Phase 5">P5</button>
+        </div>
+        <div class="filter-group">
+          <button class="filter-btn active" data-status="all">All status</button>
+          <button class="filter-btn" data-status="todo">Todo</button>
+          <button class="filter-btn" data-status="done">Done</button>
+        </div>
+        <div class="tracker-search">
+          <input type="text" id="taskSearch" placeholder="Search tasks..." />
+        </div>
+      </div>
+      <div class="progress-overview">
+        <div class="prog-bar-wrap">
+          <div class="prog-label">
+            <span id="prog-text">0 / 54 tasks complete</span>
+            <span id="prog-pct">0%</span>
+          </div>
+          <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+        </div>
+        <div class="phase-bars" id="phaseBars"></div>
+      </div>
+      <div class="task-list" id="taskList"></div>
+    </div>
+
+    <!-- ══════════ PROJECTS ══════════ -->
+    <div class="panel" id="panel-projects">
+      <div class="panel-header">
+        <h2>Portfolio Projects</h2>
+        <p>13 real-world builds — each with recruiter-facing deliverables, repo structure, and live status.</p>
+      </div>
+      <div class="github-config" id="githubConfig">
+        <div class="config-inner">
+          <span class="config-label">GitHub username →</span>
+          <input type="text" id="ghUsername" placeholder="your-github-username" />
+          <button onclick="saveGithubUser()" class="btn-sm">Connect</button>
+        </div>
+      </div>
+      <div class="projects-filter">
+        <button class="filter-btn active" data-proj-filter="all">All phases</button>
+        <button class="filter-btn" data-proj-filter="Phase 1">Phase 1</button>
+        <button class="filter-btn" data-proj-filter="Phase 2">Phase 2</button>
+        <button class="filter-btn" data-proj-filter="Phase 3">Phase 3</button>
+        <button class="filter-btn" data-proj-filter="Phase 4">Phase 4</button>
+        <button class="filter-btn" data-proj-filter="Phase 5">Phase 5</button>
+      </div>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+
+    <!-- ══════════ ANALYTICS ══════════ -->
+    <div class="panel" id="panel-analytics">
+      <div class="panel-header">
+        <h2>Analytics</h2>
+        <p>Progress over time, skill heatmap, and GitHub activity.</p>
+      </div>
+      <div class="analytics-grid">
+
+        <div class="chart-card span-2">
+          <div class="chart-title">Progress Over Time</div>
+          <canvas id="progressChart" height="200"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">Tasks by Phase</div>
+          <canvas id="phaseChart" height="220"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">Weekly Hours (Target vs Actual)</div>
+          <canvas id="hoursChart" height="220"></canvas>
+        </div>
+
+        <div class="chart-card span-2">
+          <div class="chart-title">Skill Heatmap</div>
+          <div class="heatmap-wrap" id="skillHeatmap"></div>
+        </div>
+
+        <div class="chart-card span-2">
+          <div class="chart-title">GitHub Commit Activity</div>
+          <div class="commit-grid-wrap" id="commitGrid"></div>
+          <div class="commit-legend">less <span class="cg-legend"></span> more</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ RESOURCES ══════════ -->
+    <div class="panel" id="panel-resources">
+      <div class="panel-header">
+        <h2>Resource Library</h2>
+        <p>Every book, course, YouTube channel, tool, and paper — curated for the ML Research path.</p>
+      </div>
+      <div class="res-filter">
+        <button class="filter-btn active" data-res-filter="all">All</button>
+        <button class="filter-btn" data-res-filter="book">Books</button>
+        <button class="filter-btn" data-res-filter="course">Courses</button>
+        <button class="filter-btn" data-res-filter="youtube">YouTube</button>
+        <button class="filter-btn" data-res-filter="tool">Tools</button>
+        <button class="filter-btn" data-res-filter="paper">Papers</button>
+      </div>
+      <div class="resources-grid" id="resourcesGrid"></div>
+    </div>
+
+  </div><!-- /panels -->
+</div><!-- /app-shell -->
+
+<!-- ══ PROJECT MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="projectModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ══ DEPLOY GUIDE ══ -->
+<div class="modal-overlay" id="deployOverlay">
+  <div class="modal modal-wide" id="deployModal">
+    <button class="modal-close" onclick="closeDeployModal()">✕</button>
+    <div class="modal-body" id="deployBody"></div>
+  </div>
+</div>
+
+<!-- Deploy button (bottom right) -->
+<button class="deploy-btn" onclick="showDeployGuide()" title="Deploy to GitHub Pages">⚡ Deploy</button>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
